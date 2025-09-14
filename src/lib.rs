@@ -29,6 +29,8 @@ pub enum Tag {
     UnorderedList,
     ListElement,
     Link,
+    Nav,
+    Image,
 }
 
 pub struct Element {
@@ -49,6 +51,8 @@ impl SimpleHtml for Element {
             Tag::ListElement => "li",
             Tag::UnorderedList => "ul",
             Tag::Link => "a",
+            Tag::Image => "img",
+            Tag::Nav => "nav",
         };
 
         let tabs = "  ".repeat(depth);
@@ -93,10 +97,7 @@ impl Element {
         self
     }
 
-    pub fn with_attribute<T>(mut self, attribute: T, value: T) -> Self
-    where
-        T: ToString,
-    {
+    pub fn with_attribute(mut self, attribute: impl ToString, value: impl ToString) -> Self {
         self.attributes
             .push((attribute.to_string(), value.to_string()));
 
@@ -110,10 +111,7 @@ impl Element {
         self.children.push(Box::new(child));
     }
 
-    pub fn add_attribute<T>(&mut self, attribute: T, value: T)
-    where
-        T: ToString,
-    {
+    pub fn add_attribute(&mut self, attribute: impl ToString, value: impl ToString) {
         self.attributes
             .push((attribute.to_string(), value.to_string()));
     }
@@ -149,11 +147,19 @@ impl Element {
     }
 
     pub fn with_link(self, link: impl ToString) -> Self {
-        self.with_child(Element::new(Tag::Link).with_child(link.to_string()))
+        self.with_child(Element::new(Tag::Link).with_attribute("href", link))
     }
 
     pub fn add_link(&mut self, link: impl ToString) {
-        self.add_child(Element::new(Tag::Link).with_child(link.to_string()));
+        self.add_child(Element::new(Tag::Link).with_attribute("href", link));
+    }
+
+    pub fn with_image(self, link: impl ToString) -> Self {
+        self.with_child(Element::new(Tag::Link).with_attribute("src", link))
+    }
+
+    pub fn add_image(&mut self, link: impl ToString) {
+        self.add_child(Element::new(Tag::Link).with_attribute("src", link));
     }
 }
 

@@ -137,6 +137,14 @@ impl Page {
     pub fn add_link(&mut self, link: impl ToString) {
         self.add_child(Element::new(Tag::Link).with_child(link.to_string()));
     }
+
+    pub fn with_image(self, link: impl ToString) -> Self {
+        self.with_child(Element::new(Tag::Link).with_attribute("src", link))
+    }
+
+    pub fn add_image(&mut self, link: impl ToString) {
+        self.add_child(Element::new(Tag::Link).with_attribute("src", link));
+    }
 }
 
 impl SimpleHtml for Page {
