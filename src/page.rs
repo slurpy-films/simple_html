@@ -160,7 +160,7 @@ impl SimpleHtml for Page {
         }
 
         for script_link in &self.script_links {
-            string.push_str(format!("  <script src=\"{script_link}\">\n").as_str());
+            string.push_str(format!("  <script src=\"{script_link}\" />\n").as_str());
         }
 
         for script_literal in &self.script_literals {
