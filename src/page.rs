@@ -159,6 +159,10 @@ impl SimpleHtml for Page {
             string.push_str(format!("  <meta {meta}>\n").as_str());
         }
 
+        for link in &self.head_links {
+            string.push_str(format!("  <link rel=\"{}\" href=\"{}\">\n", link.0, link.1).as_str());
+        }
+
         for script_link in &self.script_links {
             string.push_str(format!("  <script src=\"{script_link}\" />\n").as_str());
         }
