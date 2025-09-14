@@ -164,7 +164,7 @@ impl SimpleHtml for Page {
         }
 
         for script_link in &self.script_links {
-            string.push_str(format!("  <script src=\"{script_link}\" />\n").as_str());
+            string.push_str(format!("  <script src=\"{script_link}\"></script>\n").as_str());
         }
 
         string.push_str("</head>\n<body>\n");
@@ -179,6 +179,7 @@ impl SimpleHtml for Page {
         }
 
         string.push_str("</body>");
+
         string
     }
 }
