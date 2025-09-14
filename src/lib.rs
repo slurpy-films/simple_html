@@ -28,6 +28,7 @@ pub enum Tag {
     Header4,
     UnorderedList,
     ListElement,
+    Link,
 }
 
 pub struct Element {
@@ -47,6 +48,7 @@ impl SimpleHtml for Element {
             Tag::Paragraph => "p",
             Tag::ListElement => "li",
             Tag::UnorderedList => "ul",
+            Tag::Link => "a",
         };
 
         let tabs = "  ".repeat(depth);
@@ -114,6 +116,44 @@ impl Element {
     {
         self.attributes
             .push((attribute.to_string(), value.to_string()));
+    }
+
+    pub fn with_header(mut self, level: u8, text: impl ToString) -> Self {
+        match level {
+            1 => self.add_child(Element::new(Tag::Header1).with_child(text.to_string())),
+            2 => self.add_child(Element::new(Tag::Header2).with_child(text.to_string())),
+            3 => self.add_child(Element::new(Tag::Header3).with_child(text.to_string())),
+            4 => self.add_child(Element::new(Tag::Header4).with_child(text.to_string())),
+            _ => (),
+        }
+
+        self
+    }
+
+    pub fn add_header(&mut self, level: u8, text: impl ToString) {
+        match level {
+            1 => self.add_child(Element::new(Tag::Header1).with_child(text.to_string())),
+            2 => self.add_child(Element::new(Tag::Header2).with_child(text.to_string())),
+            3 => self.add_child(Element::new(Tag::Header3).with_child(text.to_string())),
+            4 => self.add_child(Element::new(Tag::Header4).with_child(text.to_string())),
+            _ => (),
+        }
+    }
+
+    pub fn with_paragraph(self, text: impl ToString) -> Self {
+        self.with_child(Element::new(Tag::Paragraph).with_child(text.to_string()))
+    }
+
+    pub fn add_paragraph(&mut self, text: impl ToString) {
+        self.add_child(Element::new(Tag::Paragraph).with_child(text.to_string()));
+    }
+
+    pub fn with_link(self, link: impl ToString) -> Self {
+        self.with_child(Element::new(Tag::Link).with_child(link.to_string()))
+    }
+
+    pub fn add_link(&mut self, link: impl ToString) {
+        self.add_child(Element::new(Tag::Link).with_child(link.to_string()));
     }
 }
 

@@ -1,4 +1,4 @@
-use crate::SimpleHtml;
+use crate::{Element, SimpleHtml, Tag};
 
 pub struct Page {
     title: Option<String>,
@@ -73,12 +73,12 @@ impl Page {
         self.meta.push(meta_str);
     }
 
-    pub fn with_link(mut self, rel: impl ToString, value: impl ToString) -> Self {
+    pub fn with_head_link(mut self, rel: impl ToString, value: impl ToString) -> Self {
         self.head_links.push((rel.to_string(), value.to_string()));
         self
     }
 
-    pub fn add_link(&mut self, rel: impl ToString, value: impl ToString) {
+    pub fn add_head_link(&mut self, rel: impl ToString, value: impl ToString) {
         self.head_links.push((rel.to_string(), value.to_string()));
     }
 
@@ -98,6 +98,44 @@ impl Page {
 
     pub fn add_script_link(&mut self, link: impl ToString) {
         self.script_literals.push(link.to_string());
+    }
+
+    pub fn with_header(mut self, level: u8, text: impl ToString) -> Self {
+        match level {
+            1 => self.add_child(Element::new(Tag::Header1).with_child(text.to_string())),
+            2 => self.add_child(Element::new(Tag::Header2).with_child(text.to_string())),
+            3 => self.add_child(Element::new(Tag::Header3).with_child(text.to_string())),
+            4 => self.add_child(Element::new(Tag::Header4).with_child(text.to_string())),
+            _ => (),
+        }
+
+        self
+    }
+
+    pub fn add_header(&mut self, level: u8, text: impl ToString) {
+        match level {
+            1 => self.add_child(Element::new(Tag::Header1).with_child(text.to_string())),
+            2 => self.add_child(Element::new(Tag::Header2).with_child(text.to_string())),
+            3 => self.add_child(Element::new(Tag::Header3).with_child(text.to_string())),
+            4 => self.add_child(Element::new(Tag::Header4).with_child(text.to_string())),
+            _ => (),
+        }
+    }
+
+    pub fn with_paragraph(self, text: impl ToString) -> Self {
+        self.with_child(Element::new(Tag::Paragraph).with_child(text.to_string()))
+    }
+
+    pub fn add_paragraph(&mut self, text: impl ToString) {
+        self.add_child(Element::new(Tag::Paragraph).with_child(text.to_string()));
+    }
+
+    pub fn with_link(self, link: impl ToString) -> Self {
+        self.with_child(Element::new(Tag::Link).with_child(link.to_string()))
+    }
+
+    pub fn add_link(&mut self, link: impl ToString) {
+        self.add_child(Element::new(Tag::Link).with_child(link.to_string()));
     }
 }
 
