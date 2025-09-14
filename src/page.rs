@@ -92,12 +92,12 @@ impl Page {
     }
 
     pub fn with_script_link(mut self, link: impl ToString) -> Self {
-        self.script_literals.push(link.to_string());
+        self.script_links.push(link.to_string());
         self
     }
 
     pub fn add_script_link(&mut self, link: impl ToString) {
-        self.script_literals.push(link.to_string());
+        self.script_links.push(link.to_string());
     }
 
     pub fn with_header(mut self, level: u8, text: impl ToString) -> Self {

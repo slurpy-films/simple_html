@@ -68,9 +68,8 @@ impl SimpleHtml for Element {
         let mut attributes = String::new();
 
         if self.attributes.len() > 1 {
-            attributes.push_str("\n");
-
             for attr in &self.attributes {
+                attributes.push_str("\n");
                 attributes.push_str("  ".repeat(depth + 1).as_str());
                 attributes.push_str(format!("{}=\"{}\"", attr.0, attr.1).as_str());
             }
