@@ -31,6 +31,7 @@ pub enum Tag {
     Link,
     Nav,
     Image,
+    Code,
 }
 
 pub struct Element {
@@ -53,6 +54,7 @@ impl SimpleHtml for Element {
             Tag::Link => "a",
             Tag::Image => "img",
             Tag::Nav => "nav",
+            Tag::Code => "code",
         };
 
         let tabs = "  ".repeat(depth);
