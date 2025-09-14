@@ -167,15 +167,15 @@ impl SimpleHtml for Page {
             string.push_str(format!("  <script src=\"{script_link}\" />\n").as_str());
         }
 
-        for script_literal in &self.script_literals {
-            string.push_str(format!("  <script>\n{script_literal}\n  </script>\n").as_str());
-        }
-
         string.push_str("</head>\n<body>\n");
 
         for child in &self.body {
             string.push_str(child.to_html(1).as_str());
             string.push_str("\n");
+        }
+
+        for script_literal in &self.script_literals {
+            string.push_str(format!("  <script>\n{script_literal}\n  </script>\n").as_str());
         }
 
         string.push_str("</body>");
